@@ -1,0 +1,13 @@
+Working example of stack backtrace using Boost.backtrace (which pulls
+Boost.assert and Boost.exception). Best effort to generate a backtrace will be
+applied upon segfault, failed assert and exception. This is very useful,
+because some users might not be able to to generate high-quality backtrace with
+debugger, and/or the error might be obvious just from the stack trace.
+
+'Debug' build type is the best, although 'RelWithDebInfo' sometimes generates
+sensible backtraces too. Others not tested.
+
+One thing to note: real software using this should always print the precise
+version of itself (up to vcs revision) at the beginning, because otherwise line
+numbers will be scewed and the whole point of not using a debugger is
+disregarded.
