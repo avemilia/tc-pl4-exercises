@@ -1,13 +1,13 @@
 Here shall reside the exercises from "The C++ Programming Language" by Stroustrup,
-ISBN 978-0321563842, plus some additional helpful C++ snippets and wanderings.
+ISBN 978-0321563842, plus some additional C++ snippets and quick checks.
 
 The exercises are published online and are subject to change, so they are
-checked into the repo as well. If you want to find a particular solution, don't
-try to use numbers -- just grep. Task description is always copied into the
-solution.
+checked into the repo as well. The solution targets have consistent naming
+scheme: "chapter-name_solution-dir-name". Every solution has its main.cc.
+Exercise descriptions are copied in main.cc, so they are greppable.
 
 Normal day of a person working on this code starts with:
-    cmake -H. -GNinja -Bbuild -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    cmake -H. -Bbuild -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo
     cmake --build build -- -v
 
 Another supported build types are Debug and Release.

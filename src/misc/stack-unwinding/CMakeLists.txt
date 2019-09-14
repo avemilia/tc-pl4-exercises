@@ -1,4 +1,4 @@
-set(TC++PL_TARGET_NAME stack-unwinding)
+set(TC++PL_TARGET_NAME ${TC++PL_TARGET_NAME}_stack-unwinding)
 
 find_package(Boost REQUIRED COMPONENTS stacktrace_addr2line)
 

@@ -19,4 +19,4 @@ if (WITH_BOUNDS_CHECKING_STL)
     add_compile_definitions($<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:$<$<COMPILE_LANG_AND_ID:CXX,AppleClang,Clang>:_LIBCPP_DEBUG=1>>)
 endif ()
 
-add_subdirectory(src/stack-unwinding)
+add_subdirectory(src)
