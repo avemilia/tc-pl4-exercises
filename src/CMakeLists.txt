@@ -1,3 +1,3 @@
-add_subdirectory(types-declarations)
-add_subdirectory(pointers-arrays-references)
-add_subdirectory(misc)
+add_subdirectory(06-types-declarations)
+add_subdirectory(07-pointers-arrays-references)
+add_subdirectory(99-misc)

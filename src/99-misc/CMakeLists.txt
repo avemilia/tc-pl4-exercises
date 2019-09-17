@@ -1,4 +1,4 @@
-set(TC++PL_TARGET_NAME misc)
+set(TC++PL_TARGET_NAME 99-misc)
 
 add_subdirectory(stack-unwinding)
 

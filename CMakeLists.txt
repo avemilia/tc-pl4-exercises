@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.14) # whatever
 project(tc++pl4-exercises LANGUAGES CXX)
+include(CTest)
 
 option(WITH_BOUNDS_CHECKING_STL on)
 
@@ -20,3 +21,6 @@ if (WITH_BOUNDS_CHECKING_STL)
 endif ()
 
 add_subdirectory(src)
+if (BUILD_TESTING)
+    add_subdirectory(test)
+endif ()
