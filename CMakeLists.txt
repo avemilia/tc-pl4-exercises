@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14) # whatever
+cmake_minimum_required(VERSION 3.12) # for -j to use all cores, as per README
 project(tc++pl4-exercises LANGUAGES CXX)
 include(CTest)
 

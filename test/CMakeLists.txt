@@ -7,16 +7,36 @@ if (NOT BASH_PROGRAM)
     endif ()
 endif ()
 
-# Custom targets to run all tests
+# Custom targets to run tests
+include(ProcessorCount)
+ProcessorCount(n)
 add_custom_target(run-tests
+        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -j${n}
+        WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+        COMMENT "Running all tests in parallel")
+
+add_custom_target(run-tests-seq
         COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
         WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
-        COMMENT "Running all tests")
+        COMMENT "Running all tests sequentially")
+
+add_custom_target(rerun-failed-tests
+        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure --rerun-failed -j${n}
+        WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+        COMMENT "Rerunning failed tests in parallel")
+
+add_custom_target(rerun-failed-tests-seq
+        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure --rerun-failed
+        WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+        COMMENT "Rerunning failed tests sequentially")
 
 # Dependee for all test targets
 add_custom_target(build-tests)
 
 add_dependencies(run-tests build-tests)
+add_dependencies(run-tests-seq build-tests)
+add_dependencies(rerun-failed-tests build-tests)
+add_dependencies(rerun-failed-tests-seq build-tests)
 
 # common.sh is a library used by all tests
 
