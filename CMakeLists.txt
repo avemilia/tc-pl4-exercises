@@ -2,7 +2,11 @@ cmake_minimum_required(VERSION 3.12) # for -j to use all cores, as per README
 project(tc++pl4-exercises LANGUAGES CXX)
 include(CTest)
 
-option(WITH_BOUNDS_CHECKING_STL on)
+# build configuration
+set(WITH_BOUNDS_CHECKING_STL on  CACHE BOOL "Build with bounds-checking STL")
+set(BUILD_SHARED_LIBS        on  CACHE BOOL "Build shared (instead of static) libraries")
+set(BUILD_TESTING            on  CACHE BOOL "Enable tests")
+set(BUILD_MISC               off CACHE BOOL "Enable src/99-misc")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
@@ -21,6 +25,7 @@ if (WITH_BOUNDS_CHECKING_STL)
 endif ()
 
 add_subdirectory(src)
+
 if (BUILD_TESTING)
     add_subdirectory(test)
 endif ()
