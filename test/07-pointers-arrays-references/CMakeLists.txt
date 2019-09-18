@@ -1,13 +1,21 @@
 set(TC++PL_TEST_TARGET_NAME test_07-pointers-arrays-references)
 
-add_custom_command(OUTPUT "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TC++PL_TEST_TARGET_NAME}_notwice.sh"
-        COMMAND ${CMAKE_COMMAND} -E copy    "${CMAKE_CURRENT_SOURCE_DIR}/notwice.sh"
-                                            "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TC++PL_TEST_TARGET_NAME}_notwice.sh"
-        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/notwice.sh"
-        COMMENT "Copying ${TC++PL_TEST_TARGET_NAME}_notwice.sh")
-add_custom_target(${TC++PL_TEST_TARGET_NAME}_notwice ALL
-        DEPENDS "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TC++PL_TEST_TARGET_NAME}_notwice.sh")
+set(base_name       "notwice")
+set(src_dir_fname   "${base_name}.sh")
+set(bin_dir_fname   "${TC++PL_TEST_TARGET_NAME}_${src_dir_fname}")
+set(target_name     "${TC++PL_TEST_TARGET_NAME}_${base_name}")
 
-add_test(NAME ${TC++PL_TEST_TARGET_NAME}_notwice
-        COMMAND ${BASH_PROGRAM} ${TC++PL_TEST_TARGET_NAME}_notwice.sh
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_custom_command(OUTPUT "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${bin_dir_fname}"
+        COMMAND ${CMAKE_COMMAND} -E copy    "${CMAKE_CURRENT_SOURCE_DIR}/${src_dir_fname}"
+                                            "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${bin_dir_fname}"
+        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${src_dir_fname}"
+        COMMENT "Copying ${src_dir_fname} -> ${bin_dir_fname}")
+add_custom_target(${target_name} ALL
+        DEPENDS "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${bin_dir_fname}")
+add_dependencies(${target_name} ${TC++PL_COMMON_TEST_TARGET_NAME})
+
+foreach (subtest_num RANGE 1 2)
+    add_test(NAME ${target_name}_${subtest_num}
+            COMMAND ${BASH_PROGRAM} ${bin_dir_fname} test_${subtest_num}
+            WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+endforeach ()

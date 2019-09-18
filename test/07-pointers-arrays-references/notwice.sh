@@ -1,36 +1,28 @@
-#!/usr/bin/env bash
-
 set -e
 
-function die() {
-    echo "Expected: '$1'"
-    echo "But got : '$2'"
+source test_common.sh # gets copied in bindir with this name
+
+target="07-pointers-arrays-references_notwice"
+
+function test_1() {
+    args="<<<"
+    input="abc 123 abc Quit bcd"
+    expect_output="Words: 'abc' '123'"
+    expect_status=0
+    test::test "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+function test_2() {
+    args="-s <<<"
+    input="abc 123 abc Quit bcd"
+    expect_output="Words: '123' 'abc'"
+    expect_status=0
+    test::test "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+if declare -f "$1" >/dev/null; then
+    "$@"
+else
+    echo "'$1' is not a known function name" >&2
     exit 1
-}
-
-# $1:tgt, $2:args, $3:in, $4:expect
-function check() {
-    local cmd got
-
-    echo "Testing '$1 $2 $3'"
-
-    # this 2-line crap took me an hour to write correctly... PepeHands
-    cmd="./$1 $2 \"$3\""
-    eval got=\$\("$cmd"\)
-
-    if [ "$got" != "$4" ]; then
-        die "$4" "$got"
-    fi
-}
-
-tgt="07-pointers-arrays-references_notwice"
-
-args="<<<"
-in="abc 123 abc Quit bcd"
-expect="Words: 'abc' '123'"
-check "$tgt" "$args" "$in" "$expect"
-
-args="-s <<<"
-in="abc 123 abc Quit bcd"
-expect="Words: '123' 'abc'"
-check "$tgt" "$args" "$in" "$expect"
+fi

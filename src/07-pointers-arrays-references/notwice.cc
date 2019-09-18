@@ -6,14 +6,13 @@
 
 #include <unistd.h>
 #include <cstdio>
-#include <cstdlib>
 #include <iostream>
 #include <vector>
 #include <algorithm>
 
 using namespace std;
 
-// from getopt()
+// from getopt():
 // extern int optind, opterr, optopt;
 // extern char* optarg;
 
@@ -24,7 +23,7 @@ using namespace std;
         fprintf(stderr, "%s\n", msg);
     }
     fprintf(stderr, "Usage: %s [-s]\n", prog_name);
-    exit(EXIT_FAILURE);
+    exit(1);
 }
 
 struct Cli_options {
@@ -45,7 +44,7 @@ int main(int argc, char** argv) {
             usage_error(argv[0], "Unrecognized option", optopt);
         default:
             cerr << "Unexpected case in switch(opt)\n";
-            exit(EXIT_FAILURE);
+            exit(2);
         }
     }
 
