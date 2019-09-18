@@ -15,12 +15,42 @@ test/ -- tests for solutions, same layout as src/
     common.sh  --  common testing utilities
 ```
 
+## Configuring build
+
+These options are available for setting:
+
+```
+% cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -LH
+[...]
+
+// Path to a program.
+BASH_PROGRAM:FILEPATH=/usr/bin/bash
+
+// Enable src/99-misc
+BUILD_MISC:BOOL=off
+
+// Build shared (instead of static) libraries
+BUILD_SHARED_LIBS:BOOL=on
+
+// Build the testing tree.
+BUILD_TESTING:BOOL=ON
+
+// Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel ...
+CMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+
+// Install path prefix, prepended onto install directories.
+CMAKE_INSTALL_PREFIX:PATH=/usr/local
+
+// Build with bounds-checking STL
+WITH_BOUNDS_CHECKING_STL:BOOL=on
+```
+
 ## Building solutions
 
 To build all targets in parallel (except tests):
 
 ```
-cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=RelWithDebInfo
+cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo
 cmake --build build -- -j
 ```
 
@@ -34,7 +64,7 @@ Solution targets naming scheme: `%chapter-target-name%_%target-name%`.
 
 To run all tests in parallel (including building required targets in parallel):
 ```
-cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_TESTING=1
+cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_TESTING=1
 cmake --build build -- -j run-tests
 ```
 
@@ -49,6 +79,7 @@ Other test targets:
 * `rerun-failed-tests` (rerun only failed tests)
 * `rerun-failed-tests-seq` (rerun only failed tests sequentially)
 
-Don't be afaraid to run tests in parallel: read the label summary.  
+> ___Tip:___
+> Don't be afaraid to run tests in parallel: read the label summary.  
 
 Tested on OpenSUSE Tumbleweed.
