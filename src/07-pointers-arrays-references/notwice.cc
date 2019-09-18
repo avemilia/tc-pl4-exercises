@@ -2,8 +2,7 @@
 //  input. Print the words in the order they were entered. Don’t print a word
 //  twice. Modify the program to sort the words before printing them.
 
-// NOTE(portability): getopt's '+' is glibc-specific, because it doesn't treat
-// argv as const. Portable solution is to putenv(POSIXLY_CORRECT)
+// NOTE(portability): getopt's '+' is glibc-specific
 
 #include <unistd.h>
 #include <cstdio>
@@ -15,13 +14,13 @@
 using namespace std;
 
 // from getopt()
-extern int optind, opterr, optopt;
-extern char* optarg;
+// extern int optind, opterr, optopt;
+// extern char* optarg;
 
 [[noreturn]] static void usage_error(const char* prog_name, const char* msg = "", const int opt = 0) {
     if (msg && opt) {
         fprintf(stderr, "%s (-%c)\n", msg, opt);
-    } else if (msg && !opt) {
+    } else if (msg) {
         fprintf(stderr, "%s\n", msg);
     }
     fprintf(stderr, "Usage: %s [-s]\n", prog_name);

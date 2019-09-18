@@ -32,5 +32,5 @@ check "$tgt" "$args" "$in" "$expect"
 
 args="-s <<<"
 in="abc 123 abc Quit bcd"
-expect="Words: 123' 'abc'"
+expect="Words: '123' 'abc'"
 check "$tgt" "$args" "$in" "$expect"
