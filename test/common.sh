@@ -11,17 +11,17 @@ function test::die() {
 
 # $1:expected output, $2:actual output
 function test::output_mismatch() {
-    echo "  OUTPUT MISMATCH:"
-    echo "      EXPECTED: '$1'"
-    echo "       BUT GOT: '$2'"
+    echo "  OUTPUT MISMATCH:" >&2
+    echo "      EXPECTED: '$1'" >&2
+    echo "       BUT GOT: '$2'" >&2
     test::die 1
 }
 
 # $1:expected status, $2:actual status
 function test::status_mismatch() {
-    echo "  EXIT STATUS MISMATCH:"
-    echo "      EXPECTED: '$1'"
-    echo "       BUT GOT: '$2'"
+    echo "  EXIT STATUS MISMATCH:" >&2
+    echo "      EXPECTED: '$1'" >&2
+    echo "       BUT GOT: '$2'" >&2
     test::die 2
 }
 
