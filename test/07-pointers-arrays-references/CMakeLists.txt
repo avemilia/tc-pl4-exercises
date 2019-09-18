@@ -15,7 +15,7 @@ add_custom_target(${target_name}
 
 add_dependencies(build-tests ${target_name})
 
-foreach (subtest_num RANGE 1 2)
+foreach (subtest_num RANGE 1 5)
     add_test(NAME ${target_name}_${subtest_num}
             COMMAND ${BASH_PROGRAM} ${bin_dir_fname} test_${subtest_num}
             WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
