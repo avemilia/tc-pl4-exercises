@@ -33,13 +33,16 @@ BUILD_MISC:BOOL=off
 BUILD_SHARED_LIBS:BOOL=on
 
 // Build the testing tree.
-BUILD_TESTING:BOOL=ON
+BUILD_TESTING:BOOL=on
 
 // Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel ...
 CMAKE_BUILD_TYPE:STRING=RelWithDebInfo
 
 // Install path prefix, prepended onto install directories.
 CMAKE_INSTALL_PREFIX:PATH=/usr/local
+
+// Additional ctest arguments for targets like 'run-tests'
+CTEST_ARGS:STRING=
 
 // Build with bounds-checking STL
 WITH_BOUNDS_CHECKING_STL:BOOL=on
@@ -48,25 +51,38 @@ WITH_BOUNDS_CHECKING_STL:BOOL=on
 ## Building solutions
 
 To build all targets in parallel (except tests):
-
 ```
 cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo
 cmake --build build -- -j
+```
+
+To build a particular target:
+```
+cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo
+cmake --build build -- -j target-name
 ```
 
 Each exercise solution has its target.  
 Each chapter (consisting of solutions) has its target.  
 
 Chapter targets naming scheme: `%chapter_number%-%chapter-name%`.  
-Solution targets naming scheme: `%chapter-target-name%_%target-name%`.  
+Solution targets naming scheme: `%chapter-target-name%_%target_name%`.  
 
 ## Testing solutions
 
 To run all tests in parallel (including building required targets in parallel):
 ```
-cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_TESTING=1
+cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo
 cmake --build build -- -j run-tests
 ```
+
+To run a particular set of tests (e.g. all tests matching "foo"):
+```
+cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCTEST_ARGS="-R;foo"
+cmake --build build -- -j run-tests
+```
+
+See `ctest(1)` man page for arguments that can be passed.
 
 Tests are labeled (`ctest -L`):
 * each solution target has its label

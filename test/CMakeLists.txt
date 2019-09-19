@@ -11,22 +11,22 @@ endif ()
 include(ProcessorCount)
 ProcessorCount(n)
 add_custom_target(run-tests
-        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -j${n}
+        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -j${n} ${CTEST_ARGS}
         WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
         COMMENT "Running all tests in parallel")
 
 add_custom_target(run-tests-seq
-        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
+        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure ${CTEST_ARGS}
         WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
         COMMENT "Running all tests sequentially")
 
 add_custom_target(rerun-failed-tests
-        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure --rerun-failed -j${n}
+        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure --rerun-failed -j${n} ${CTEST_ARGS}
         WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
         COMMENT "Rerunning failed tests in parallel")
 
 add_custom_target(rerun-failed-tests-seq
-        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure --rerun-failed
+        COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure --rerun-failed ${CTEST_ARGS}
         WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
         COMMENT "Rerunning failed tests sequentially")
 
@@ -39,12 +39,10 @@ add_dependencies(rerun-failed-tests build-tests)
 add_dependencies(rerun-failed-tests-seq build-tests)
 
 # common.sh is a library used by all tests
-
 set(base_name       "common")
 set(src_dir_fname   "${base_name}.sh")
 set(bin_dir_fname   "${TC++PL_TEST_TARGET_NAME}_${src_dir_fname}")
 set(target_name     "${TC++PL_TEST_TARGET_NAME}_${base_name}")
-
 add_custom_command(OUTPUT "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${bin_dir_fname}"
         COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/${src_dir_fname}"
                                          "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${bin_dir_fname}"
@@ -52,9 +50,10 @@ add_custom_command(OUTPUT "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${bin_dir_fname}"
         COMMENT "Copying: ${src_dir_fname} -> ${bin_dir_fname}")
 add_custom_target(${target_name}
         DEPENDS "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${bin_dir_fname}")
-
 add_dependencies(build-tests ${target_name})
 
-set(TC++PL_COMMON_TEST_TARGET_NAME "${target_name}") # used in subdirectories
+# used in subdirectories
+set(TC++PL_COMMON_TEST_TARGET_NAME "${target_name}")
+include(util)
 
 add_subdirectory(07-pointers-arrays-references)
