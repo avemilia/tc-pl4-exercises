@@ -38,7 +38,7 @@ add_dependencies(run-tests-seq build-tests)
 add_dependencies(rerun-failed-tests build-tests)
 add_dependencies(rerun-failed-tests-seq build-tests)
 
-# common.sh is a library used by all tests
+# common.sh is a library used by all shell-driven tests
 set(base_name       "common")
 set(src_dir_fname   "${base_name}.sh")
 set(bin_dir_fname   "${TC++PL_TEST_TARGET_NAME}_${src_dir_fname}")

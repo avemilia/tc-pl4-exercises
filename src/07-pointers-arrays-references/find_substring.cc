@@ -13,7 +13,7 @@ using namespace std;
 
 int count_substrings(string& str, const char* substr) {
     auto substr_len = strlen(substr);
-    if (str.empty() && substr_len == 0)
+    if ((str.empty() && substr_len == 0) || substr_len == 0)
         return 0;
 
     auto pos = str.find(substr);
@@ -27,8 +27,54 @@ int count_substrings(string& str, const char* substr) {
     return cnt;
 }
 
+string::size_type str_find_helper(const char* s, const char* substr, long s_len, long substr_len, long pos) {
+    for (decltype(pos) i = pos; i <= s_len - substr_len; ++i) {
+        auto j = i;
+        decltype(substr_len) matching = 0;
+        for (decltype(substr_len) m = 0; m < substr_len && j < s_len; ++m, ++j) {
+            if (s[j] != substr[m])
+                break;
+            ++matching;
+        }
+        if (matching == substr_len)
+            return i;
+    }
+
+    return string::npos;
+}
+
+string::size_type str_find(const char* s, const char* substr) {
+    auto s_len = static_cast<long>(strlen(s));
+    auto substr_len = static_cast<long>(strlen(substr));
+
+    return str_find_helper(s, substr, s_len, substr_len, 0);
+}
+
+string::size_type str_find(const char* s, const char* substr, string::size_type pos) {
+    // unsigned types are annoying and dangerous in classic for loops
+    auto s_len = static_cast<long>(strlen(s));
+    auto substr_len = static_cast<long>(strlen(substr));
+    auto lpos = static_cast<long>(pos);
+
+    return str_find_helper(s, substr, s_len, substr_len, lpos);
+}
+
+
 int count_substrings(const char* s, const char* substr) {
-    return 0;
+    auto s_len = strlen(s);
+    auto substr_len = strlen(substr);
+    if ((s_len == 0 && substr_len == 0) || substr_len == 0)
+        return 0;
+
+    auto pos = str_find(s, substr);
+    if (pos == string::npos)
+        return 0;
+    int cnt = 1;
+
+    while ((pos = str_find(s, substr, pos + substr_len)) != string::npos)
+        cnt++;
+
+    return cnt;
 }
 
 int main(int argc, char** argv) {
