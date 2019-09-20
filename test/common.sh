@@ -25,22 +25,22 @@ function test::status_mismatch() {
     test::die 2
 }
 
-# $1:target, $2:args, $3:input, $4:expect_output $5:expect_status
+# $1:env_args, $2:target, $3:args, $4:input, $5:expect_output $6:expect_status
 function test::test() {
     local cmd output status
 
-    echo "TESTING '$1 $2 $3'"
+    echo "TESTING '$1 $2 $3 $4'"
 
-    cmd="./$1 $2 \"$3\""
+    cmd="$1 ./$2 $3 \"$4\""
     set +e # disable set -e for eval
     eval output=\$\("$cmd"\)
     status=$?
     set -e
 
-    if [ "$output" != "$4" ]; then
-        test::output_mismatch "$4" "$output"
+    if [ "$output" != "$5" ]; then
+        test::output_mismatch "$5" "$output"
     fi
-    if [ "$status" != "$5" ]; then
-        test::status_mismatch "$5" "$status"
+    if [ "$status" != "$6" ]; then
+        test::status_mismatch "$6" "$status"
     fi
 }

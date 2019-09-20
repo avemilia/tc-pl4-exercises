@@ -57,3 +57,4 @@ set(TC++PL_COMMON_TEST_TARGET_NAME "${target_name}")
 include(util)
 
 add_subdirectory(07-pointers-arrays-references)
+add_subdirectory(08-structures-unions-enumerations)

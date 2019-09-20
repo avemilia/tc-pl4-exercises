@@ -1,5 +1,5 @@
-Here shall reside the exercises from "The C++ Programming Language" by Stroustrup,
-ISBN 9780321958327.
+Here shall reside the selected set of exercises from "The C++ Programming
+Language" by Stroustrup, ISBN 9780321958327.
 
 Exercise descriptions are copied in translation units, so they are greppable.
 
