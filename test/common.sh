@@ -31,16 +31,20 @@ function test::test() {
 
     echo "TESTING '$1 $2 $3 $4'"
 
-    cmd="$1 ./$2 $3 \"$4\""
+    if [[ -z $4 ]]; then
+        cmd="$1 ./$2 $3"
+    else
+        cmd="$1 ./$2 $3 \"$4\""
+    fi
     set +e # disable set -e for eval
     eval output=\$\("$cmd"\)
     status=$?
     set -e
 
-    if [ "$output" != "$5" ]; then
+    if [[ "$output" != "$5" ]]; then
         test::output_mismatch "$5" "$output"
     fi
-    if [ "$status" != "$6" ]; then
+    if [[ "$status" != "$6" ]]; then
         test::status_mismatch "$6" "$status"
     fi
 }
