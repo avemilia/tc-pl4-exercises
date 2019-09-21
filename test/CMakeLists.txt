@@ -58,3 +58,4 @@ include(util)
 
 add_subdirectory(07-pointers-arrays-references)
 add_subdirectory(08-structures-unions-enumerations)
+add_subdirectory(09-statements)
