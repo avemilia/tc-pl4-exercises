@@ -105,6 +105,134 @@ function test_11() {
     test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
 }
 
+function test_12() {
+    env_args=""
+    args="-123"
+    input=""
+    expect_output="-123"
+    expect_status=0
+    test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+function test_13() {
+    env_args=""
+    args="-0123"
+    input=""
+    expect_output="-83"
+    expect_status=0
+    test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+function test_14() {
+    env_args=""
+    args="-0x123"
+    input=""
+    expect_output="-291"
+    expect_status=0
+    test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+function test_15() {
+    env_args=""
+    int_min=$(getconf INT_MIN)
+    args="$int_min"
+    input=""
+    expect_output="$int_min"
+    expect_status=0
+    test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+function test_16() {
+    env_args=""
+    int_max=$(getconf INT_MAX)
+    args="$int_max"
+    input=""
+    expect_output="$int_max"
+    expect_status=0
+    test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+function test_17() {
+    env_args=""
+    args="0"
+    input=""
+    expect_output="0"
+    expect_status=0
+    test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+function test_18() {
+    env_args=""
+    args="-0"
+    input=""
+    expect_output="0"
+    expect_status=0
+    test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+function test_19() {
+    env_args=""
+    args="00"
+    input=""
+    expect_output="0"
+    expect_status=0
+    test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+function test_20() {
+    env_args=""
+    args="000"
+    input=""
+    expect_output="0"
+    expect_status=0
+    test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+function test_21() {
+    env_args=""
+    args="0x0"
+    input=""
+    expect_output="0"
+    expect_status=0
+    test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+function test_22() {
+    env_args=""
+    args="1111111111111111111111111111"
+    input=""
+    expect_output=""
+    expect_status=2
+    test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+function test_23() {
+    env_args=""
+    args="-1111111111111111111111111111"
+    input=""
+    expect_output=""
+    expect_status=2
+    test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+function test_24() {
+    env_args=""
+    args="01111111111111111111111111111"
+    input=""
+    expect_output=""
+    expect_status=2
+    test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+function test_25() {
+    env_args=""
+    args="0x1111111111111111111111111111"
+    input=""
+    expect_output=""
+    expect_status=2
+    test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
 if declare -f "$1" >/dev/null; then
     "$@"
 else

@@ -71,11 +71,28 @@ int atoi(const char* str, int& err, int base) {
 }
 
 int atoi(char* str, int& err) {
+    int num {}; // might be needed for case '-'
     switch (str[0]) {
     case '\0':
         // no character to interpret
         err = 2;
         return 0;
+    case '-':
+        num = atoi(str + 1, err);
+        switch (err) {
+        case 1:
+            // overflow can be caused due to abs(INT_MIN) not fitting into int
+            // try abs(INT_MIN)-1
+            str[strlen(str) - 1]--;
+            num = atoi(str + 1, err);
+            if (err)
+                return 0;
+            return -num - 1; // give back 1
+        case 2:
+            return 0;
+        default:
+            return -num;
+        }
     case '0':
         switch (str[1]) {
         case '\0':
