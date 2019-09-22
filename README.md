@@ -1,7 +1,10 @@
 Here shall reside the selected set of exercises from "The C++ Programming
 Language" by Stroustrup, ISBN 9780321958327.
 
+![cover](http://www.informit.com/ShowCover.aspx?isbn=0321958322)
+
 Exercise descriptions are copied in translation units, so they are greppable.
+For typos/mistakes in descriptions see [CORRECTIONS](CORRECTIONS.md).
 
 ## Repo layout
 
