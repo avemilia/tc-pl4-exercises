@@ -12,7 +12,7 @@ using namespace std;
 
 char* itoa(int i, char* b, long b_len) {
     int num_of_digits = static_cast<int>(log10(i)) + 1;
-    if (b_len < num_of_digits)
+    if (b_len < num_of_digits + 1) // for '\0'
         return nullptr;
 
     int n {num_of_digits};
@@ -22,9 +22,7 @@ char* itoa(int i, char* b, long b_len) {
         b[n-- - 1] = q_r.rem + '0';
     } while (i);
 
-    while (num_of_digits != b_len) {
-        b[num_of_digits++] = '\0';
-    }
+    b[num_of_digits] = '\0';
 
     return b;
 }
@@ -38,10 +36,10 @@ int main(int argc, char** argv) {
     // no error checking because this is to test itoa() only
     int i = atoi(argv[1]);
     long b_len = atol(argv[2]);
-    unique_ptr<char> b {new char[b_len]};
-    if (!itoa(i, &*b, b_len))
+    unique_ptr<char[]> b {new char[b_len] {}};
+    if (!itoa(i, b.get(), b_len))
         exit(2);
-    cout << &*b << '\n';
+    cout << b.get() << '\n';
 
     return 0;
 }

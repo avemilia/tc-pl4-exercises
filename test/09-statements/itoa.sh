@@ -28,14 +28,23 @@ function test_3() {
     env_args=""
     args="123 3"
     input=""
-    expect_output="123"
-    expect_status=0
+    expect_output=""
+    expect_status=2
     test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
 }
 
 function test_4() {
     env_args=""
     args="123 4"
+    input=""
+    expect_output="123"
+    expect_status=0
+    test::test "$env_args" "$target" "$args" "$input" "$expect_output" "$expect_status"
+}
+
+function test_5() {
+    env_args=""
+    args="123 5"
     input=""
     expect_output="123"
     expect_status=0

@@ -1,8 +1,21 @@
-add_subdirectory(06-types-declarations)
-add_subdirectory(07-pointers-arrays-references)
-add_subdirectory(08-structures-unions-enumerations)
-add_subdirectory(09-statements)
-
-if (BUILD_MISC)
-    add_subdirectory(99-misc)
+if (SANITIZE_ADDRESS OR SANITIZE_MEMORY OR SANITIZE_THREAD OR SANITIZE_UNDEFINED)
+    find_package(Sanitizers REQUIRED)
 endif ()
+
+set(subdir_list "")
+list(APPEND subdir_list "06-types-declarations")
+list(APPEND subdir_list "07-pointers-arrays-references")
+list(APPEND subdir_list "08-structures-unions-enumerations")
+list(APPEND subdir_list "09-statements")
+if (BUILD_MISC)
+    list(APPEND subdir_list "99-misc")
+endif ()
+
+foreach (dir ${subdir_list})
+    add_subdirectory(${dir})
+
+    if (SANITIZE_ADDRESS OR SANITIZE_MEMORY OR SANITIZE_THREAD OR SANITIZE_UNDEFINED)
+        get_directory_property(targets DIRECTORY ${dir} BUILDSYSTEM_TARGETS)
+        add_sanitizers(${targets})
+    endif ()
+endforeach ()

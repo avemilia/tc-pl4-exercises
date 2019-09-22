@@ -23,9 +23,8 @@ test/ -- tests for solutions, same layout as src/
 These options are available for setting:
 
 ```
-% cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -LH
+% cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DSANITIZE_ADDRESS=1 -LH
 [...]
-
 // Path to a program.
 BASH_PROGRAM:FILEPATH=/usr/bin/bash
 
@@ -47,6 +46,21 @@ CMAKE_INSTALL_PREFIX:PATH=/usr/local
 // Additional ctest arguments for targets like 'run-tests'
 CTEST_ARGS:STRING=
 
+// Enable AddressSanitizer for sanitized targets.
+SANITIZE_ADDRESS:BOOL=1
+
+// Try to link static against sanitizers.
+SANITIZE_LINK_STATIC:BOOL=OFF
+
+// Enable MemorySanitizer for sanitized targets.
+SANITIZE_MEMORY:BOOL=OFF
+
+// Enable ThreadSanitizer for sanitized targets.
+SANITIZE_THREAD:BOOL=OFF
+
+// Enable UndefinedBehaviorSanitizer for sanitized targets.
+SANITIZE_UNDEFINED:BOOL=OFF
+
 // Build with bounds-checking STL
 WITH_BOUNDS_CHECKING_STL:BOOL=on
 ```
@@ -56,6 +70,13 @@ WITH_BOUNDS_CHECKING_STL:BOOL=on
 To build all targets in parallel (except tests):
 ```
 cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo
+cmake --build build -- -j
+```
+
+To build all targets with sanitizers (`SANITIZE_ADDRESS`, `SANITIZE_MEMORY`,
+`SANITIZE_THREAD` or `SANITIZE_UNDEFINED`):
+```
+cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DSANITIZE_ADDRESS=1
 cmake --build build -- -j
 ```
 
@@ -78,6 +99,8 @@ To run all tests in parallel (including building required targets in parallel):
 cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo
 cmake --build build -- -j run-tests
 ```
+
+Best combined with options for sanitizers above.
 
 To run a particular set of tests (e.g. all tests matching "foo"):
 ```

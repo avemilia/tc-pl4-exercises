@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.12) # for -j to use all cores, as per README
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/external/sanitizers-cmake/cmake")
 project(tc++pl4-exercises LANGUAGES CXX)
 
 # build configuration
