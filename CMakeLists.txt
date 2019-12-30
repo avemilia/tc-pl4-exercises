@@ -30,9 +30,12 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-parameter -Wno-unused-variable")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
+
 # expose SUSv4 (POSIX.1-2008 + XSI) declarations
 add_compile_definitions($<$<PLATFORM_ID:Linux>:_XOPEN_SOURCE=700>)
+
 if (WITH_BOUNDS_CHECKING_STL)
+    # generator expressions 101:
     #		$< [[ if config is debug or relwithdebinfo ]]
     #			$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>
     #		 : [[ then ]]
@@ -41,13 +44,19 @@ if (WITH_BOUNDS_CHECKING_STL)
     #					$<COMPILE_LANGUAGE:CXX>,
     #					$<OR:$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:Clang>>
     #			     >
-    #			 : [[ then ]]
+    #			 : [[ then evaluate to ]]
     #			    _LIBCPP_DEBUG=1
     #			 >
     #		 >
 	add_compile_definitions($<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<OR:$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:Clang>>>:_LIBCPP_DEBUG=1>>)
     # same, but without second OR
     add_compile_definitions($<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU>>:_GLIBCXX_DEBUG>>)
+endif ()
+
+# add colorful output on ninja generator
+if ("${CMAKE_GENERATOR}" STREQUAL "Ninja")
+    add_compile_options($<$<OR:$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:Clang>>:-fcolor-diagnostics>)
+    add_compile_options($<$<CXX_COMPILER_ID:GNU>:-fdiagnostics-color=always>)
 endif ()
 
 if (SANITIZE_ADDRESS OR SANITIZE_MEMORY OR SANITIZE_THREAD OR SANITIZE_UNDEFINED)
