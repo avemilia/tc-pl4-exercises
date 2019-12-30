@@ -1,7 +1,3 @@
-if (SANITIZE_ADDRESS OR SANITIZE_MEMORY OR SANITIZE_THREAD OR SANITIZE_UNDEFINED)
-    find_package(Sanitizers REQUIRED)
-endif ()
-
 set(subdir_list "")
 list(APPEND subdir_list "06-types-declarations")
 list(APPEND subdir_list "07-pointers-arrays-references")
